@@ -49,9 +49,6 @@ app.post("/blog", (req, res) => {
 app.put("/blog/:id", (req, res) => {
 	try {
 		const { szerzo, cim, kategoria, content } = req.body;
-		if (!szerzo || !cim || !kategoria || !content) {
-			return res.status(400).json({ message: "Invalid credentials" });
-		}
 		const id = req.params.id;
 		const updatedBlog = db.updateBlog(id, szerzo, cim, kategoria, content);
 		if (updatedBlog.changes != 1) {

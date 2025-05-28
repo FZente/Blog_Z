@@ -44,23 +44,31 @@ async function fetchBlogs() {
 
     blogs.forEach(blog => {
       const card = document.createElement('div');
-      card.className = 'col-sm-6 col-lg-4';
+      card.className = 'col-12 col-md-6 col-lg-6';
       card.innerHTML = `
-        <div class="card h-100 shadow text-bg-white">
-          <div class="card-body">
-            <h5 class="card-title d-flex justify-content-between align-items-center">
+        <div class="card h-100 shadow text-bg-white " style="background-image: url('images/postcard.jpg'); background-size: cover; background-position: center;">>
+          <div class="card-body fs-5" style="color: black;">
+            <h5 class="card-title d-flex justify-content-between align-items-center fs-3">
               <span>${blog.cim || '<i></i>'}</span>
               <div class="btn-group btn-group-sm">
                 <button class="btn btn-outline-warning" onclick="editField(${blog.id}, 'cim', '${blog.cim || ''}')">✏️</button>
                 <button class="btn btn-outline-danger" onclick="clearField(${blog.id}, 'cim')">🗑</button>
               </div>
             </h5>
-            ${generateFieldRow(blog, 'Szerző', 'szerzo')}
-            ${generateFieldRow(blog, 'Kategória', 'kategoria')}
             ${generateFieldRow(blog, 'Tartalma', 'content')}
-            ${generateFieldRow(blog, 'Keltezés', 'created_at')}
-            ${generateFieldRow(blog, 'Módosítás dátuma', 'updated_at')}
-            <button class="btn btn-danger w-100 mt-3" onclick="deleteBlog(${blog.id})">Törlés</button>
+            ${generateFieldRow(blog, 'Kategória', 'kategoria')}
+            ${generateFieldRow(blog, 'Szerző', 'szerzo')}
+            <div class="row">
+              <div class="col-md-6">
+                ${generateFieldRow(blog, 'Keltezés', 'created_at')}
+              </div>
+              <div class="col-md-6">
+                ${generateFieldRow(blog, 'Módosítás dátuma', 'updated_at')}
+              </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+              <button class="btn btn-danger w-50" onclick="deleteBlog(${blog.id})">Törlés</button>
+            </div>
           </div>
       `;
       container.appendChild(card);
@@ -72,8 +80,8 @@ async function fetchBlogs() {
   const value = key.includes('_at') ? formatDate(blog[key]) : (blog[key] || '');
 
   return `
-    <div class="d-flex justify-content-between align-items-center mb-2">
-      <div><strong>${label}:</strong> ${value}</div>
+    <div class="d-flex justify-content-between align-items-start mb-2">
+      <div><strong>${label}:</strong><br>${value}</div>
       ${!isDateField ? `
         <div class="btn-group btn-group-sm">
           <button class="btn btn-outline-warning" onclick="editField(${blog.id}, '${key}', '${blog[key] || ''}')">✏️</button>
